@@ -2,6 +2,7 @@ import TextField from "@material-ui/core/TextField";
 import React from "react";
 import Paper from "@material-ui/core/Paper";
 import Button from "@material-ui/core/Button";
+import Axios from "axios";
 
 class LoginComponent extends React.Component {
   render() {
@@ -18,13 +19,25 @@ class LoginComponent extends React.Component {
       >
         <form noValidate autoComplete="off">
           <div>
-            <h1>login</h1>
+            <h1>piazza login</h1>
           </div>
           <div>
-            <TextField label="Username" fullWidth="true" />
+            <TextField
+              label="Username"
+              fullWidth="true"
+              style={{
+                padding: "8px"
+              }}
+            />
           </div>
           <div>
-            <TextField label="Password" fullWidth="true" />
+            <TextField
+              label="Password"
+              fullWidth="true"
+              style={{
+                padding: "8px"
+              }}
+            />
           </div>
           <div>
             <Button
