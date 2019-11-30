@@ -5,6 +5,13 @@ import Button from "@material-ui/core/Button";
 import Axios from "axios";
 
 class LoginComponent extends React.Component {
+  constructor(props) {
+    super(props);
+    this.state = {
+      success: false
+    };
+  }
+
   render() {
     return (
       <Paper
