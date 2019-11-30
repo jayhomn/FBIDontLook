@@ -12,6 +12,10 @@ class Hero(models.Model):
 class UserProfile(models.Model):
     userName = models.CharField(max_length=60)
     password = models.CharField(max_length=60)
+    successLogin = models.BooleanField(default=False)
 
     def __str__(self):
         return self.userName
+
+# class Course(models.Model):
+#     courseName = models.CharField(max_length=100)

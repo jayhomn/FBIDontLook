@@ -10,4 +10,4 @@ class HeroSerializer(serializers.HyperlinkedModelSerializer):
 class UserSerializer(serializers.HyperlinkedModelSerializer):
     class Meta:
         model = UserProfile
-        fields = ('userName', 'password')
+        fields = ('userName', 'password', 'successLogin')
