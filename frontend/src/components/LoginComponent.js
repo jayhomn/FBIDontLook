@@ -1,5 +1,6 @@
 import TextField from "@material-ui/core/TextField";
 import React from "react";
+import { Route, withRouter } from "react-router-dom";
 import Paper from "@material-ui/core/Paper";
 import Button from "@material-ui/core/Button";
 import Axios from "axios";
@@ -8,8 +9,40 @@ class LoginComponent extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
+      username: "",
+      password: "",
       success: false
     };
+  }
+
+  updateProfile(username, password, success) {
+    Axios.post("http://localhost:8000/userProfile/", {
+      userName: this.state.username,
+      password: this.state.password,
+      success: this.state.success
+    }).then(res =>
+      this.setState({ success: res.data }).catch(err => console.log(err))
+    );
+  }
+  advance = () => {
+    this.updateProfile(
+      this.state.username,
+      this.state.password,
+      this.state.success
+    );
+    this.props.history.push("/explore");
+  };
+
+  handleTextFieldChangeUser(e) {
+    this.setState({
+      username: e.target.value
+    });
+  }
+
+  handleTextFieldChangePass(e) {
+    this.setState({
+      password: e.target.value
+    });
   }
 
   render() {
@@ -30,6 +63,8 @@ class LoginComponent extends React.Component {
           </div>
           <div>
             <TextField
+              value={this.state.textFieldValue}
+              onChange={this.handleTextFieldChangeUser}
               label="Username"
               fullWidth="true"
               style={{
@@ -39,6 +74,8 @@ class LoginComponent extends React.Component {
           </div>
           <div>
             <TextField
+              value={this.state.textFieldValue}
+              onChange={this.handleTextFieldChangeUser}
               label="Password"
               fullWidth="true"
               style={{
@@ -48,6 +85,7 @@ class LoginComponent extends React.Component {
           </div>
           <div>
             <Button
+              onClick={this.advance}
               style={{
                 marginTop: "24px"
               }}
@@ -62,4 +100,4 @@ class LoginComponent extends React.Component {
   }
 }
 
-export default LoginComponent;
+export default withRouter(LoginComponent);
