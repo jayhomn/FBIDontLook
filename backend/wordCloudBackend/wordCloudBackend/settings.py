@@ -39,6 +39,7 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'restAPI.apps.RestapiConfig',
     'rest_framework',
+    'piazza_api',
 ]
 
 MIDDLEWARE = [
