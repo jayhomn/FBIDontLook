@@ -1,6 +1,11 @@
 from piazza_api import Piazza
 from html.parser import HTMLParser
 
+# usage note, function piazza_reader only works if the coursecode entered is exact
+# TODO make the coursecoad parameter smarter
+
+const_limit = 30
+
 # using this library to parse html tags in the content string
 class MLStripper(HTMLParser):
     def __init__(self):
@@ -19,6 +24,7 @@ def strip_tags(html):
     s = MLStripper()
     s.feed(html)
     return s.get_data()
+
 
 def login(email, password):
     piazza = Piazza()
@@ -41,24 +47,24 @@ def piazza_reader(email, password, coursecode):
 
     class_dictionary = piazza.get_user_classes()
 
-    courseToHash = {}
+    coursetohash = {}
     #print(len(class_dictionary))
     for i in range(len(class_dictionary)):
-        courseToHash.update({class_dictionary[i]['num']: class_dictionary[i]['nid']})
+        coursetohash.update({class_dictionary[i]['num']: class_dictionary[i]['nid']})
 
-    print(courseToHash)
+    print(coursetohash)
 
-    classroom = piazza.network(courseToHash[coursecode])
+    classroom = piazza.network(coursetohash[coursecode])
 
-    print(coursecode)
-    print(courseToHash[coursecode])
+    # print(coursecode)
+    # print(coursetohash[coursecode])
 
     # go through all the posts, aggregate them in a data-structure
     postquestions = []
     postanswers = []
 
     # board_posts type is generator: cannot access memory in the lazy list
-    board_posts = classroom.iter_all_posts(limit=30)
+    board_posts = classroom.iter_all_posts(limit=const_limit)
 
     for post in board_posts:
         # get rid of html tags
@@ -70,8 +76,10 @@ def piazza_reader(email, password, coursecode):
         # checks if there's an answer associated to the question
         if "children" in post.keys() and post["children"] and "history" in post["children"][0]:
             # for all answers in a single post (iterate)
+
             for answer_index in range(len(post["children"][0]["history"])):
                 # get rid of html tags and check if the entry is a string
+
                 if type(post["children"][0]["history"][answer_index]["content"]) == str:
                     answer_string = strip_tags(post["children"][0]["history"][answer_index]["content"])
                     # append to answers array
