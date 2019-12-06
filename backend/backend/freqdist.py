@@ -13,14 +13,20 @@ custom_stopwords = ["1", "2", "3", "4", "5", "6", "7", "8", "9", "0", ",", ".", 
 
 
 def raw_dict_maker(stringin):
-
+    # define stop/filler words and punctuation
     stop = stopwords.words('english') + list(string.punctuation) + custom_stopwords
     cleaner = TweetTokenizer()
-    clean = [i for i in cleaner.tokenize(stringin.lower()) if i not in stop]
 
-    fdist = FreqDist(clean)
+    # string stripped of punctuation and filler words
+    cleanstring = [i for i in cleaner.tokenize(stringin.lower()) if i not in stop]
+
+    # frequency distribution of cleaned string
+    fdist = FreqDist(cleanstring)
+
+    # top 50 distribution
     fdist_50 = fdist.most_common(50)
 
+    # convert to dictionary
     freq_dictionary = {}
     for index in range(len(fdist_50)):
         freq_dictionary.update({fdist_50[index][0]: fdist_50[index][1]})
