@@ -93,4 +93,3 @@ def piazza_reader(email, password, coursecode):
 
     # print(postQuestions + postAnswers)
     return " ".join(postquestions + postanswers)
-
